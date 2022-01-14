@@ -11,13 +11,15 @@ Explanation of the different files:
 The dataset used in this project is downloaded from the famous [dogs-vs-cats competition](https://www.kaggle.com/c/dogs-vs-cats). Since the original dataset doesn't categorize the images into their respective categories based on the image content, I have written a script so that there would be two directories (one for dog and another one for cat images). Once that is done, the whole dataset is then split up into train and validation sets.
 
 ### Access
-AWS CLI is then used to upload the arranged data to an S3 bucket through the AWS Gateway so that SageMaker has access to the data. 
+AWS CLI is used to upload the arranged data to an S3 bucket through the AWS Gateway so that SageMaker has access to the data, when training the model. 
 
-## Hyperparameter Tuning
+## Model
 
 The model chosen in this project is a pretrained version of resnet50 as it is one of the most commonly used convolutional neural networks. It is trained on more than a million images from the [ImageNet](https://www.image-net.org/) database.
 
-The hyperparameters that are optimized include batch-size, learning-rate and the number of epochs the training has to run through.
+## Hyperparameter Tuning
+
+The hyperparameters that are optimized include batch-size, learning-rate and the number of epochs the training has to run through. The objective metric is the average train loss and the objive is to find a Train Job that minimizes it.
 
 Here is the screenshot of the hyperparameters tuning job:
 ![19145999-00c0938296f789a62f724188a8f53e19](https://user-images.githubusercontent.com/41271840/147415378-9578efeb-d6c7-45fd-8e66-2245b781c203.png)
@@ -50,15 +52,16 @@ This gave the following output:
 
 The best hyperparameters are: {'epochs': 4, 'batch-size': 256, 'lr': 0.00390315210654023}  
  
-## Debugging and Profiling
-Model debugging and profiling in sagemaker is achieved in sagemaker by defining the rules and profiles in the script defining the PyTorch estimator. The respective hooks for the training and testing phases are defined in the train_model.py script.
+## Debugger Profiling
+Model debugger profiling in sagemaker is achieved by specifying the profile and hook parameters in the lines defining the PyTorch estimator. The respective hooks for the training and testing phases are registered and used in the train_model.py script.
 
-### Results
-By enabling the SageMaker Debugger and Profiler, I was able to see different debugging information while the training job was running and the resource consumption data like CPU and GPU usage etc. 
+By enabling the SageMaker Debugger and Profiler, different debugging information logged while the training job was running and the resource consumption like model parameters, CPU and GPU usage etc are revealed in the output.
 
 ## Model Deployment
-The deployed model can be queried by creating a Predictor object by specifying the endpointname as a parameter and the calling the predict() method on it providing a data (sample image). The image has to be preprocessed and transformed by the create_data_loader() function to be consumed by the predictor.
+The deployed model can be queried by creating a Predictor object by specifying the endpointname as a parameter and the calling the `predict()` method on it providing a data (sample image). The image has to be preprocessed and transformed by the `create_data_loader()` function to be consumed by the predictor.
 
 Screenshot of the endpoint in service.
 ![image](https://user-images.githubusercontent.com/41271840/147610383-2aa0e16a-c5ca-4d4d-ba13-f1785569780c.png)
 
+## Model Performance
+The model has an accuracy of 98% on the validation set, which is pretty much good.
