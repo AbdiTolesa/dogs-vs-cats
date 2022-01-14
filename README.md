@@ -1,17 +1,17 @@
 # Image Classification using AWS SageMaker
 
-Use AWS Sagemaker to train a pretrained model that can perform image classification by using the Sagemaker profiling, debugger, hyperparameter tuning and other good ML engineering practices. This can be done on either the provided dog breed classication data set or one of your choice.
+This project demonstrates the usage of Amazon SageMaker and other AWS services to build, train, deploy and monitor an image classification model that detects whether an image contains a dog or cat.
 
 ## Project Set Up and Installation
 Explanation of the different files:
-train_model.py - a python module that has the model creation, training and validation functionalities.
-train_and_deploy.ipynb - Contains different scripts used for hyperparameter tuning, PyTorch estimator creation and deployment, model inference.
+- train_model.py - a python module that has the model creation, training and validation functionalities.
+- train_and_deploy.ipynb - Contains different scripts used for downloading and preprocessing the dataset, hyperparameter tuning, PyTorch Estimator creation and deployment purposes.
 
 ## Dataset
-The dataset used in this project is brought from the famous [dogs-vs-cats competition](https://www.kaggle.com/c/dogs-vs-cats). Since the dataset doesn't categorize the images into categories based on the image content, I have written a script so that there would be two directories (one for dogs and another for cats). Once that is done, a portion of the training dataset was moved to a validation dataset.
+The dataset used in this project is downloaded from the famous [dogs-vs-cats competition](https://www.kaggle.com/c/dogs-vs-cats). Since the original dataset doesn't categorize the images into their respective categories based on the image content, I have written a script so that there would be two directories (one for dog and another one for cat images). Once that is done, the whole dataset is then split up into train and validation sets.
 
 ### Access
-Upload the data to an S3 bucket through the AWS Gateway so that SageMaker has access to the data. 
+AWS CLI is then used to upload the arranged data to an S3 bucket through the AWS Gateway so that SageMaker has access to the data. 
 
 ## Hyperparameter Tuning
 
