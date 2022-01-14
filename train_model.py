@@ -91,7 +91,7 @@ def train(args, model, train_loader, test_loader, optimizer):
         print("TESTING...")
         test_loss = test(model, device, test_loader)
             
-        logger.info("Epoch: {} train loss: {}, test loss: {}".format(epoch, train_loss, test_loss))
+        logger.info("Epoch: {} train loss: {}, test loss: {}".format(epoch, train_loss/len(train_loader.dataset), test_loss))
     save_model(model, args.model_dir)
     
 def net():
